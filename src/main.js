@@ -1,8 +1,4 @@
 import "./style.css";
-import "@fontsource/cinzel/latin-600.css";
-import "@fontsource/cinzel/latin-700.css";
-import "@fontsource/source-serif-4/latin-400.css";
-import "@fontsource/source-serif-4/latin-600.css";
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { DRACOLoader } from "three/addons/loaders/DRACOLoader.js";
@@ -13,13 +9,11 @@ const tabsEl = document.querySelector("#tabs");
 const viewerEl = document.querySelector("#viewer");
 const hintEl = document.querySelector("#hint");
 const statusEl = document.querySelector("#status");
-const kickerEl = document.querySelector("#kicker");
-const headingEl = document.querySelector("#heading");
-const pointsEl = document.querySelector("#points");
-const resetEl = document.querySelector("#reset");
-const spotBlockEl = document.querySelector("#spot-block");
-const spotsEl = document.querySelector("#spots");
-const creditEl = document.querySelector("#credit");
+const cardEl = document.querySelector("#card");
+const closeEl = document.querySelector("#close");
+const picsEl = document.querySelector("#pics");
+const headlineEl = document.querySelector("#headline");
+const detailsEl = document.querySelector("#details");
 
 const placing = new URLSearchParams(location.search).has("place");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -41,9 +35,13 @@ viewerEl.appendChild(renderer.domElement);
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = !reduceMotion;
 controls.dampingFactor = 0.08;
-controls.enablePan = false;
+controls.enablePan = true;
+controls.zoomToCursor = true;
+controls.screenSpacePanning = true;
 controls.rotateSpeed = 0.75;
 controls.zoomSpeed = 0.7;
+controls.mouseButtons.LEFT = THREE.MOUSE.ROTATE;
+controls.mouseButtons.RIGHT = THREE.MOUSE.PAN;
 
 scene.add(new THREE.AmbientLight(0xfff6ea, 0.38));
 scene.add(new THREE.HemisphereLight(0xfff8ee, 0x3a3128, 0.55));
@@ -124,7 +122,7 @@ function buildTabs() {
     button.className = "tab";
     button.id = `tab-${work.id}`;
     button.setAttribute("role", "tab");
-    button.setAttribute("aria-controls", "panel");
+    button.setAttribute("aria-controls", "viewer");
     button.setAttribute("aria-selected", index === 0 ? "true" : "false");
     button.tabIndex = index === 0 ? 0 : -1;
     button.textContent = work.tab;
@@ -134,7 +132,7 @@ function buildTabs() {
 }
 
 function bindUi() {
-  resetEl.addEventListener("click", () => selectHotspot(null));
+  closeEl.addEventListener("click", () => selectHotspot(null));
 
   tabsEl.addEventListener("keydown", (event) => {
     if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
@@ -160,9 +158,8 @@ function bindUi() {
       return;
     }
     const number = Number(event.key);
-    if (number >= 1 && number <= activeWork.hotspots.length) {
-      selectHotspot(activeWork.hotspots[number - 1].id);
-    }
+    const match = activeWork.hotspots.find((item) => item.number === number);
+    if (match) selectHotspot(match.id);
   });
 
   renderer.domElement.addEventListener("pointerdown", (event) => {
@@ -172,8 +169,10 @@ function bindUi() {
 
   renderer.domElement.addEventListener("pointerup", (event) => {
     if (!pointerDown) return;
-    const moved = Math.hypot(event.clientX - pointerDown.x, event.clientY - pointerDown.y);
+    const start = pointerDown;
     pointerDown = null;
+    if (event.button !== 0) return;
+    const moved = Math.hypot(event.clientX - start.x, event.clientY - start.y);
     if (moved > 5) return;
     onCanvasClick(event);
   });
@@ -207,7 +206,7 @@ function selectWork(id) {
 function selectHotspot(id) {
   selectedId = id;
   const hotspot = activeWork.hotspots.find((item) => item.id === id) || null;
-  renderPanel();
+  renderCard();
   refreshPinTextures();
   if (!modelRoot) return;
   if (!hotspot) {
@@ -238,7 +237,7 @@ function cycleHotspot(step) {
 async function loadWork(work) {
   const token = ++loadToken;
   setStatus("Loading the statue…");
-  renderPanel();
+  renderCard();
   clearModel();
 
   try {
@@ -260,7 +259,7 @@ async function loadWork(work) {
     buildPins(root, work.hotspots);
     tweenCamera(homeView(), 0);
     setStatus("");
-    renderPanel();
+    renderCard();
   } catch (error) {
     if (token !== loadToken) return;
     console.error(error);
@@ -302,7 +301,7 @@ function buildPins(root, hotspots) {
     if (placed.point.distanceTo(guess) > 0.08) placed.point.copy(guess);
     const sprite = new THREE.Sprite(
       new THREE.SpriteMaterial({
-        map: pinTexture(index + 1, false),
+        map: pinTexture(hotspot.number, false),
         transparent: true,
         depthWrite: false,
         depthTest: true,
@@ -311,7 +310,8 @@ function buildPins(root, hotspots) {
     sprite.position.copy(placed.point);
     sprite.userData.id = hotspot.id;
     sprite.userData.normal = placed.normal;
-    sprite.userData.index = index + 1;
+    sprite.userData.index = hotspot.number;
+    sprite.userData.number = hotspot.number;
     sprite.center.set(0.5, 0.5);
     scene.add(sprite);
     pins.push(sprite);
@@ -360,22 +360,27 @@ function drawPin(number, active) {
   ctx.clearRect(0, 0, 128, 128);
   ctx.beginPath();
   ctx.arc(64, 64, 46, 0, Math.PI * 2);
-  ctx.fillStyle = active ? "#e4c98a" : "rgba(16, 14, 12, 0.88)";
+  ctx.fillStyle = active ? "#161616" : "#ffffff";
   ctx.fill();
   ctx.lineWidth = 8;
-  ctx.strokeStyle = "#e4c98a";
+  ctx.strokeStyle = "#161616";
   ctx.stroke();
-  ctx.fillStyle = active ? "#1a140c" : "#f4efe6";
-  ctx.font = "700 62px Palatino, Georgia, serif";
+  ctx.fillStyle = active ? "#ffffff" : "#161616";
+  ctx.font = "600 64px system-ui, sans-serif";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.fillText(String(number), 64, 68);
   return canvas;
 }
 
+function pinIsSelected(pin) {
+  const selected = activeWork.hotspots.find((item) => item.id === selectedId);
+  return Boolean(selected && pin.userData.number === selected.number);
+}
+
 function refreshPinTextures() {
   pins.forEach((pin) => {
-    const active = pin.userData.id === selectedId;
+    const active = pinIsSelected(pin);
     pin.material.map = pinTexture(pin.userData.index, active);
     pin.material.opacity = !selectedId || active ? 1 : 0.45;
     pin.material.needsUpdate = true;
@@ -415,62 +420,46 @@ function tweenCamera(view, duration) {
   };
 }
 
-function renderPanel() {
+function renderCard() {
   const hotspot = activeWork.hotspots.find((item) => item.id === selectedId) || null;
-  kickerEl.textContent = hotspot
-    ? hotspot.label
-    : `${activeWork.kicker} · ${activeWork.years}`;
-  headingEl.textContent = hotspot ? hotspot.title : activeWork.heading;
-  pointsEl.replaceChildren();
-  const bullets = hotspot ? hotspot.bullets : activeWork.bullets;
-  bullets.forEach((text) => {
-    const item = document.createElement("li");
-    item.textContent = text;
-    pointsEl.appendChild(item);
+  cardEl.hidden = !hotspot;
+  if (!hotspot) return;
+  headlineEl.textContent = hotspot.headline || "";
+  detailsEl.replaceChildren();
+  const parts = Array.isArray(hotspot.details)
+    ? hotspot.details
+    : [{ text: hotspot.details || "" }];
+  parts.forEach((part) => {
+    if (!part.text) return;
+    if (part.bold) {
+      const strong = document.createElement("strong");
+      strong.textContent = part.text;
+      detailsEl.append(strong);
+      return;
+    }
+    detailsEl.append(part.text);
   });
-  resetEl.hidden = !hotspot;
-  creditEl.textContent = activeWork.credit;
-
-  spotsEl.replaceChildren();
-  spotBlockEl.hidden = activeWork.hotspots.length === 0;
-  activeWork.hotspots.forEach((item, index) => {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "spot";
-    if (item.id === selectedId) button.classList.add("is-active");
-    button.setAttribute("aria-pressed", item.id === selectedId ? "true" : "false");
-
-    const badge = document.createElement("span");
-    badge.className = "spot-index";
-    badge.textContent = String(index + 1);
-
-    const label = document.createElement("span");
-    label.textContent = item.label;
-
-    button.append(badge, label);
-    button.addEventListener("click", () => selectHotspot(item.id));
-    spotsEl.appendChild(button);
-  });
-  renderHint();
+  const images = hotspot.images?.length ? hotspot.images : hotspot.image ? [hotspot.image] : [];
+  picsEl.replaceChildren();
+  picsEl.classList.toggle("is-pair", images.length > 1);
+  if (!images.length) {
+    const frame = document.createElement("div");
+    frame.className = "pic-frame";
+    picsEl.append(frame);
+  } else {
+    images.forEach((src) => {
+      const img = document.createElement("img");
+      img.src = src;
+      img.alt = hotspot.headline || "";
+      picsEl.append(img);
+    });
+  }
 }
 
 function renderHint() {
-  if (placing && hintEl.dataset.point) {
-    hintEl.textContent = hintEl.dataset.point;
-    return;
-  }
-  const hovered = activeWork.hotspots.find((item) => item.id === hoveredId);
-  if (hovered && hovered.id !== selectedId) {
-    hintEl.textContent = `${hovered.label} · click to look closer`;
-    return;
-  }
-  if (selectedId) {
-    hintEl.textContent = "Drag to look around this detail";
-    return;
-  }
-  hintEl.textContent = activeWork.hotspots.length
-    ? "Drag to turn · Scroll to zoom · Click a gold number"
-    : "Drag to turn · Scroll to zoom";
+  if (!placing) return;
+  hintEl.hidden = !hintEl.dataset.point;
+  if (hintEl.dataset.point) hintEl.textContent = hintEl.dataset.point;
 }
 
 function setStatus(message) {
@@ -536,12 +525,11 @@ function updatePins(now) {
   pins.forEach((pin) => {
     const distance = camera.position.distanceTo(pin.position);
     const worldHeight = 2 * Math.tan((camera.fov * Math.PI) / 360) * distance;
-    const pixels = pin.userData.id === selectedId ? 42 : 32;
-    const pulse =
-      pin.userData.id === selectedId && !reduceMotion ? 1 + Math.sin(now / 260) * 0.05 : 1;
+    const selected = pinIsSelected(pin);
+    const pixels = selected ? 42 : 32;
+    const pulse = selected && !reduceMotion ? 1 + Math.sin(now / 260) * 0.05 : 1;
     const size = worldHeight * ((pixels * pulse) / height);
     pin.scale.set(size, size, 1);
-    const selected = pin.userData.id === selectedId;
     pin.material.depthTest = !selected;
     pin.renderOrder = selected ? 2 : 1;
     pin.visible = true;

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Michelangelo — Pietà and Moses</title>
+  </head>
+  <body>
+    <div class="app">
+      <header class="top">
+        <div class="brand">
+          <p class="brand-kicker">Pietà and Moses</p>
+          <h1>Michelangelo</h1>
+        </div>
+        <div class="tabs" id="tabs" role="tablist" aria-label="Choose a sculpture"></div>
+      </header>
+      <main>
+        <section class="stage" id="stage">
+          <div id="viewer"></div>
+          <p class="hint" id="hint">Drag to turn · Scroll to zoom</p>
+          <div class="status" id="status">Loading the statue…</div>
+        </section>
+        <aside class="panel" id="panel" aria-live="polite">
+          <p class="kicker" id="kicker"></p>
+          <h2 id="heading"></h2>
+          <ul id="points"></ul>
+          <button type="button" class="text-button" id="reset" hidden>
+            Show the whole statue
+          </button>
+          <div class="spot-block" id="spot-block" hidden>
+            <p class="list-label">Look closer</p>
+            <div id="spots"></div>
+          </div>
+          <p class="credit" id="credit"></p>
+        </aside>
+      </main>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

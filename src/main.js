@@ -9,6 +9,7 @@ const tabsEl = document.querySelector("#tabs");
 const viewerEl = document.querySelector("#viewer");
 const hintEl = document.querySelector("#hint");
 const statusEl = document.querySelector("#status");
+const referenceEl = document.querySelector("#reference");
 const cardEl = document.querySelector("#card");
 const closeEl = document.querySelector("#close");
 const picsEl = document.querySelector("#pics");
@@ -236,6 +237,8 @@ function cycleHotspot(step) {
 
 async function loadWork(work) {
   const token = ++loadToken;
+  referenceEl.src = work.photo;
+  referenceEl.alt = work.title;
   setStatus("Loading the statue…");
   renderCard();
   clearModel();

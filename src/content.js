@@ -6,6 +6,8 @@ import anatomyVeinsImage from "./images/anatomy-veins.png?url";
 import maryFaceImage from "./images/mary-face.png?url";
 import maryHandImage from "./images/mary-hand.png?url";
 import pietaFullImage from "./images/pieta-full.png?url";
+import pietaPhoto from "./images/pieta-photo.jpg?url";
+import mosesPhoto from "./images/moses-photo.jpg?url";
 
 const anatomy = {
   images: [anatomyBodyImage, anatomyVeinsImage],
@@ -31,6 +33,7 @@ export const works = [
     title: "Moses",
     years: "1513–1515",
     model: mosesModel,
+    photo: mosesPhoto,
     rotation: [0, 0, 0],
     home: { theta: 0.35, phi: 1.18 },
     hotspots: [],
@@ -41,6 +44,7 @@ export const works = [
     title: "Pietà",
     years: "1498–1499",
     model: pietaModel,
+    photo: pietaPhoto,
     // The exported scan lies on its side. This stands it up and turns the front toward the camera.
     rotation: [Math.PI / 2, 0, 0],
     home: { theta: 0.28, phi: 1.18 },

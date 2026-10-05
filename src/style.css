@@ -112,6 +112,22 @@ main {
   touch-action: none;
 }
 
+.reference {
+  position: absolute;
+  z-index: 1;
+  left: 3cqh;
+  top: 50%;
+  transform: translateY(-50%);
+  max-height: 88cqh;
+  max-width: 30cqw;
+  width: auto;
+  height: auto;
+  border: 1px solid #161616;
+  border-radius: 12px;
+  background: #fff;
+  pointer-events: none;
+}
+
 .hint,
 .status {
   position: absolute;
@@ -122,6 +138,7 @@ main {
 }
 
 .status {
+  z-index: 3;
   inset: 0;
   display: grid;
   place-items: center;
@@ -136,6 +153,7 @@ main {
 
 .card {
   position: absolute;
+  z-index: 2;
   top: 3cqh;
   right: 3cqh;
   width: min(42cqw, 520px);
@@ -216,6 +234,14 @@ h2 {
 
   .stage {
     margin: 12px;
+  }
+
+  .reference {
+    top: 8px;
+    left: 8px;
+    transform: none;
+    max-height: 28cqh;
+    max-width: 34cqw;
   }
 
   .card {

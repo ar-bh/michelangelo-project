@@ -96,6 +96,8 @@ main {
   margin: 16px 22px 22px;
   border: 1px solid #161616;
   background: #f3f2ef;
+  container-type: size;
+  overflow: hidden;
 }
 
 #viewer {
@@ -134,47 +136,48 @@ main {
 
 .card {
   position: absolute;
-  top: 24px;
-  right: 24px;
-  width: min(980px, calc(100% - 48px));
-  padding: 32px 40px 28px;
-  overflow: visible;
+  top: 3cqh;
+  right: 3cqh;
+  width: min(42cqw, 520px);
+  max-height: 94cqh;
+  padding: clamp(12px, 2.4cqh, 22px) clamp(14px, 2cqw, 24px);
+  overflow: auto;
   background: #fff;
   border: 1px solid #161616;
-  border-radius: 36px;
+  border-radius: 24px;
 }
 
 .close {
   position: absolute;
-  top: 14px;
-  right: 18px;
-  width: 40px;
-  height: 40px;
+  top: 8px;
+  right: 10px;
+  width: 32px;
+  height: 32px;
   padding: 0;
   border: 0;
   background: transparent;
-  font-size: 2rem;
+  font-size: 1.5rem;
   line-height: 1;
 }
 
 .card-top {
   display: flex;
   align-items: center;
-  gap: 28px;
+  gap: clamp(10px, 2cqh, 18px);
   min-width: 0;
-  margin-right: 36px;
+  margin-right: 28px;
 }
 
 .pics {
   display: flex;
-  gap: 16px;
+  gap: 10px;
   flex: 0 0 auto;
 }
 
 .pics img,
 .pic-frame {
-  width: 280px;
-  height: 280px;
+  width: clamp(84px, 26cqh, 168px);
+  height: clamp(84px, 26cqh, 168px);
   border: 1px solid #161616;
   border-radius: 50%;
   background: #f3f2ef;
@@ -182,24 +185,24 @@ main {
 }
 
 .pics.is-pair img {
-  width: 220px;
-  height: 220px;
+  width: clamp(72px, 20cqh, 132px);
+  height: clamp(72px, 20cqh, 132px);
 }
 
 h2 {
   margin: 0;
   min-width: 0;
-  font-size: 2.35rem;
+  font-size: clamp(1.05rem, 4.2cqh, 1.7rem);
   font-weight: 600;
-  line-height: 1.2;
+  line-height: 1.15;
   overflow-wrap: anywhere;
 }
 
 #details {
-  margin: 22px 0 0;
+  margin: clamp(8px, 1.8cqh, 16px) 0 0;
   max-width: 100%;
-  font-size: 1.35rem;
-  line-height: 1.4;
+  font-size: clamp(0.82rem, 2.35cqh, 1.05rem);
+  line-height: 1.35;
   overflow-wrap: anywhere;
 }
 
@@ -217,32 +220,10 @@ h2 {
 
   .card {
     top: auto;
-    right: 12px;
-    bottom: 12px;
-    left: 12px;
+    right: 10px;
+    bottom: 10px;
+    left: 10px;
     width: auto;
-    max-height: 70%;
-    padding: 28px 24px 22px;
-  }
-
-  h2 {
-    font-size: 1.7rem;
-  }
-
-  #details {
-    font-size: 1.15rem;
-  }
-
-  .card-top {
-    flex-direction: column;
-    align-items: flex-start;
-    margin-right: 28px;
-  }
-
-  .pics img,
-  .pic-frame,
-  .pics.is-pair img {
-    width: 140px;
-    height: 140px;
+    max-height: 62cqh;
   }
 }

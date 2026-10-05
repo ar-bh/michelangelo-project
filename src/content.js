@@ -26,6 +26,16 @@ const anatomy = {
  */
 export const works = [
   {
+    id: "moses",
+    tab: "Moses",
+    title: "Moses",
+    years: "1513–1515",
+    model: mosesModel,
+    rotation: [0, 0, 0],
+    home: { theta: 0.35, phi: 1.18 },
+    hotspots: [],
+  },
+  {
     id: "pieta",
     tab: "Pietà",
     title: "Pietà",
@@ -111,15 +121,5 @@ export const works = [
         zoom: 1.25,
       },
     ],
-  },
-  {
-    id: "moses",
-    tab: "Moses",
-    title: "Moses",
-    years: "1513–1515",
-    model: mosesModel,
-    rotation: [0, 0, 0],
-    home: { theta: 0.35, phi: 1.18 },
-    hotspots: [],
   },
 ];

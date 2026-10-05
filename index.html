@@ -3,38 +3,33 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Michelangelo — Pietà and Moses</title>
-    <script type="module" crossorigin src="./assets/index-xb1XZXX1.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/style-DHbeB3ov.css">
+    <title>Michelangelo</title>
+    <script type="module" crossorigin src="./assets/index-DA6Z85w8.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/style-CsXauY4N.css">
   </head>
   <body>
     <div class="app">
       <header class="top">
         <div class="brand">
-          <p class="brand-kicker">Pietà and Moses</p>
           <h1>Michelangelo</h1>
+          <p class="byline">by Arjun Bhumula and Navath Mandala</p>
         </div>
         <div class="tabs" id="tabs" role="tablist" aria-label="Choose a sculpture"></div>
       </header>
       <main>
         <section class="stage" id="stage">
           <div id="viewer"></div>
-          <p class="hint" id="hint">Drag to turn · Scroll to zoom</p>
+          <p class="hint" id="hint" hidden></p>
           <div class="status" id="status">Loading the statue…</div>
+          <aside class="card" id="card" hidden>
+            <button type="button" class="close" id="close" aria-label="Close">×</button>
+            <div class="card-top">
+              <div class="pics" id="pics"></div>
+              <h2 id="headline"></h2>
+            </div>
+            <p id="details"></p>
+          </aside>
         </section>
-        <aside class="panel" id="panel" aria-live="polite">
-          <p class="kicker" id="kicker"></p>
-          <h2 id="heading"></h2>
-          <ul id="points"></ul>
-          <button type="button" class="text-button" id="reset" hidden>
-            Show the whole statue
-          </button>
-          <div class="spot-block" id="spot-block" hidden>
-            <p class="list-label">Look closer</p>
-            <div id="spots"></div>
-          </div>
-          <p class="credit" id="credit"></p>
-        </aside>
       </main>
     </div>
   </body>

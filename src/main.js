@@ -440,6 +440,12 @@ function renderCard() {
       detailsEl.append(strong);
       return;
     }
+    if (part.italic) {
+      const em = document.createElement("em");
+      em.textContent = part.text;
+      detailsEl.append(em);
+      return;
+    }
     detailsEl.append(part.text);
   });
   const images = hotspot.images?.length ? hotspot.images : hotspot.image ? [hotspot.image] : [];

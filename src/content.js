@@ -8,6 +8,10 @@ import maryHandImage from "./images/mary-hand.png?url";
 import pietaFullImage from "./images/pieta-full.png?url";
 import pietaPhoto from "./images/pieta-photo.jpg?url";
 import mosesPhoto from "./images/moses-photo.jpg?url";
+import mosesHornsImage from "./images/moses-horns.png?url";
+import mosesKneeImage from "./images/moses-knee.jpg?url";
+import mosesFaceImage from "./images/moses-face.png?url";
+import mosesCommandmentsImage from "./images/moses-commandments.png?url";
 
 const anatomy = {
   images: [anatomyBodyImage, anatomyVeinsImage],
@@ -36,7 +40,78 @@ export const works = [
     photo: mosesPhoto,
     rotation: [0, 0, 0],
     home: { theta: 0.35, phi: 1.18 },
-    hotspots: [],
+    hotspots: [
+      {
+        id: "horns",
+        number: 1,
+        image: mosesHornsImage,
+        headline: "Moses's Horns",
+        details: [
+          { text: "When sculpting " },
+          { text: "Moses", italic: true },
+          {
+            text: ", Michelangelo carved two small horns emerging from his forehead due to a famous mistranslation in the Latin Vulgate Bible. When Jerome translated the Hebrew Bible into Latin, he mistook the Hebrew word ",
+          },
+          { text: "qaran", italic: true },
+          { text: ' (meaning "beamed" or "radiated light") for ' },
+          { text: "qeren", italic: true },
+          {
+            text: ' (meaning "horned"). As a result, the Latin text stated that Moses\'s face was "horned" when he descended Mount Sinai with the Ten Commandments, leading Michelangelo to sculpt actual horns on his head as symbols of divine light and glory.',
+          },
+        ],
+        position: [0, 0.96, 0.02],
+        lookAt: [0, 0.93, -0.04],
+        theta: 0.3,
+        phi: 1.32,
+        zoom: 0.58,
+      },
+      {
+        id: "commandments",
+        number: 2,
+        image: mosesCommandmentsImage,
+        headline: "10 Commandments",
+        details: [
+          {
+            text: "Originally meant for a massive 40-statue tomb for Pope Julius II, ",
+          },
+          { text: "Moses", italic: true },
+          {
+            text: " ended up taking 40 frustrating years to finish after non-stop budget cuts and political drama, an ordeal Michelangelo famously referred to as the tragedy of the tomb. The statue turned out so unrealistically lifelike that legend says Michelangelo struck its knee with a hammer in disbelief, demanding to know why it wouldn't speak. Instead of showing Moses in mid-outburst, Michelangelo froze him in the split second right before he loses his temper, capturing that intense psychological strain where you can feel him barely holding back his rage.",
+          },
+        ],
+        position: [-0.345, 0.171, 0.027],
+        lookAt: [-0.3, 0.26, -0.02],
+        theta: 0.12,
+        phi: 1.28,
+        zoom: 0.48,
+      },
+      {
+        id: "terribilita",
+        number: 3,
+        image: mosesFaceImage,
+        headline: "Terribilità",
+        details:
+          "Michelangelo sculpted Moses with a piercing, furious expression as he glares toward the Israelites worshipping the golden calf. Rather than depicting a static biblical figure, Michelangelo captured a moment of contained psychological tension and divine wrath, introducing the fierce emotional intensity known as terribilità.",
+        position: [0.04, 0.77, 0.02],
+        lookAt: [0.02, 0.78, -0.03],
+        theta: 0.22,
+        phi: 1.22,
+        zoom: 0.4,
+      },
+      {
+        id: "left-leg",
+        number: 4,
+        image: mosesKneeImage,
+        headline: "Left Leg",
+        details:
+          "Moses has his left leg pulled back with only his toes touching the ground, leaving his heel floating in the air. Instead of sitting comfortably, he looks like a sprinter locked into the starting blocks, ready to launch out of his seat the second his temper snaps.",
+        position: [0.36, -0.48, 0.32],
+        lookAt: [0.28, -0.4, 0.15],
+        theta: 0.7,
+        phi: 1.35,
+        zoom: 0.55,
+      },
+    ],
   },
   {
     id: "pieta",
